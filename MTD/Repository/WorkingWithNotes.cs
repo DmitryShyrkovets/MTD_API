@@ -4,17 +4,17 @@ using Models.RepositoryInterfaces;
 
 namespace Repository;
 
-public class WorkingWhitsNotes: INoteRepository
+public class WorkingWithNotes: INoteRepository
 {
     private readonly ApplicationContext _context;
-    public WorkingWhitsNotes(ApplicationContext context)
+    public WorkingWithNotes(ApplicationContext context)
     {
         _context = context;
     }
 
     public async Task<List<Note>> GetNotes(User user)
     {
-        return await _context.Notes.Where(n => n.User != null && n.User.Id == user.Id).ToListAsync();
+        return await _context.Notes.Where(n => n.User != null && n.UserId == user.Id).ToListAsync();
     }
 
     public async Task AddNote(Note model, User user)
@@ -51,7 +51,7 @@ public class WorkingWhitsNotes: INoteRepository
             throw new Exception("Note is not found!");
         }
 
-        _context.Remove(note);
+        _context.Notes.Remove(note);
         
         await _context.SaveChangesAsync();
     }
