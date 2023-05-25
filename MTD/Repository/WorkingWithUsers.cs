@@ -4,10 +4,10 @@ using Models.RepositoryInterfaces;
 
 namespace Repository;
 
-public class WorkingWhitsUsers: IUserRepository
+public class WorkingWithUsers: IUserRepository
 {
     private readonly ApplicationContext _context;
-    public WorkingWhitsUsers(ApplicationContext context)
+    public WorkingWithUsers(ApplicationContext context)
     {
         _context = context;
     }
@@ -65,7 +65,7 @@ public class WorkingWhitsUsers: IUserRepository
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-        _context.Remove(user);
+        _context.Users.Remove(user);
         
         await _context.SaveChangesAsync();
     }

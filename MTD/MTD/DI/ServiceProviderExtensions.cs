@@ -17,8 +17,8 @@ public static class ServiceProviderExtensions
     
     public static void AddRepositories(this IServiceCollection services)
     {
-        services.AddTransient<IUserRepository, WorkingWhitsUsers>();
-        services.AddTransient<INoteRepository, WorkingWhitsNotes>();
+        services.AddTransient<IUserRepository, WorkingWithUsers>();
+        services.AddTransient<INoteRepository, WorkingWithNotes>();
     }
     
     public static void AddMapper(this IServiceCollection services)
