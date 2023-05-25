@@ -8,7 +8,7 @@ public class MappingUser : Profile
 {
     public MappingUser()
     {
-        CreateMap<User, UserCli>();
-        CreateMap<UserCli, User>();
+        CreateMap<User, UserModel>();
+        CreateMap<UserModel, User>();
     }
 }
