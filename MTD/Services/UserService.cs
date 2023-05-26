@@ -12,11 +12,16 @@ public class UserService : IUserService
     private readonly IUserRepository _repository;
     private readonly IMapper _mapper;
     private IMemoryCache _cache;
+    
+    private readonly MemoryCacheEntryOptions options;
+    
     public UserService(IUserRepository repository, IMapper mapper, IMemoryCache cache = null)
     {
         _repository = repository;
         _mapper = mapper;
         _cache = cache;
+        
+        options = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
     }
 
     public async Task<UserModel> GetUserByEmail(string email)
@@ -28,7 +33,7 @@ public class UserService : IUserService
             var userDb = await _repository.GetUserByEmail(email);
             var userModel = _mapper.Map<UserModel>(userDb);
             
-            _cache?.Set(email, userModel, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            _cache?.Set(email, userModel, options);
             
             return userModel;
         }
@@ -52,7 +57,7 @@ public class UserService : IUserService
         
         var userModel = _mapper.Map<UserModel>(user);
         
-        _cache?.Set(user.Email, userModel, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+        _cache?.Set(user.Email, userModel, options);
     }
 
     public async Task TryModifyUser(UserModel model)
@@ -64,7 +69,7 @@ public class UserService : IUserService
         await _repository.ModifyUser(user);
 
         _cache?.Remove(model.Email);
-        _cache?.Set(model.Email, model, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+        _cache?.Set(model.Email, model, options);
     }
 
     public async Task TryChangeEmail(UserModel model, string oldEmail)
@@ -79,7 +84,7 @@ public class UserService : IUserService
         
         model = _mapper.Map<UserModel>( await GetUserByEmail(user.Email));
         
-        _cache?.Set(model.Email, model, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+        _cache?.Set(model.Email, model, options);
     }
 
     private async Task UserDataChangeCheck(UserModel user, string email)
