@@ -28,13 +28,34 @@ public class AccountController : ControllerBase
         {
             await Authenticate(model.Email);
 
-            var user = _service.GetUserByEmail(model.Email);
-            await _cache.Set(model.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            var user = await _service.GetUserByEmail(model.Email);
+            _cache.Set(model.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
             
             return Ok("Signed in successfully");
         }
         
         return Unauthorized("Wrong data");
+    }
+    
+    [HttpPost("Registration")]
+    public async Task<IActionResult> Registration([FromBody]UserModel model)
+    {
+        try
+        {
+            await _service.TryAddUser(model);
+            
+            await Authenticate(model.Email);
+
+            var user = await _service.GetUserByEmail(model.Email);
+            _cache.Set(model.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            
+            return Ok("Registration is successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
     }
     
     
