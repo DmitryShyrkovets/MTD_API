@@ -4,8 +4,8 @@ namespace Services.ServiceInterfaces;
 
 public interface INoteService
 {
-    public Task<List<NoteModel>> TryGetNotes(UserModel userModel);
-    public Task TryAddNote(NoteModel noteModel, UserModel userModel);
+    public Task<List<NoteModel>> TryGetNotes(int userId);
+    public Task TryAddNote(NoteModel noteModel);
     public Task TryModifyNote(NoteModel model);
-    public Task TryDeleteNote(int id);
+    public Task TryDeleteNote(NoteModel model);
 }
