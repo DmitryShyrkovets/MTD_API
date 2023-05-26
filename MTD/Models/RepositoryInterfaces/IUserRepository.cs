@@ -4,7 +4,6 @@ namespace Models.RepositoryInterfaces;
 
 public interface IUserRepository
 {
-    public Task<List<User>> GetUsers(); //must dropped
     public Task<User> GetUserByEmail(string email);
     public Task<bool> UserVerification(User obj);
     public Task AddUser(User model);

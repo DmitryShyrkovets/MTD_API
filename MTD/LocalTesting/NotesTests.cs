@@ -30,12 +30,9 @@ public class NotesTests
     [Test]
     public async Task GetNotes()
     {
-        var user = new UserModel
-        {
-            Id = 1
-        };
+        int userId = 1;
         
-        var notes = await _service.TryGetNotes(user);
+        var notes = await _service.TryGetNotes(userId);
 
         Assert.AreEqual(3, notes.Count);
     }
@@ -43,22 +40,18 @@ public class NotesTests
     [Test]
     public async Task CreateNote()
     {
-        var user = new UserModel
-        {
-            Id = 1
-        };
-        
         var newNote = new NoteModel
         {
             Id = 10,
+            UserId = 1,
             Category = "testCategory",
             Name = "TestName",
             Text = "testText"
         };
 
-        await _service.TryAddNote(newNote, user);
+        await _service.TryAddNote(newNote);
         
-        var notes = await _service.TryGetNotes(user);
+        var notes = await _service.TryGetNotes(newNote.UserId ?? 0);
 
         Assert.AreEqual(4, notes.Count);
     }
@@ -66,22 +59,18 @@ public class NotesTests
     [Test]
     public async Task ModifyNote()
     {
-        var user = new UserModel
-        {
-            Id = 1
-        };
-        
         var modifyNote = new NoteModel
         {
             Id = 3,
+            UserId = 1,
             Category = "testCategory",
             Name = "TestName",
             Text = "testText"
         };
 
-        await _service.TryAddNote(modifyNote, user);
+        await _service.TryAddNote(modifyNote);
         
-        var notes = await _service.TryGetNotes(user);
+        var notes = await _service.TryGetNotes(modifyNote.UserId ?? 0);
 
         var note = notes.FirstOrDefault(n => n.Id == modifyNote.Id && 
                                              n.Category == modifyNote.Category && 
@@ -94,14 +83,15 @@ public class NotesTests
     [Test]
     public async Task DeleteNote()
     {
-        var user = new UserModel
+        var deletedNote = new NoteModel
         {
-            Id = 1
+            Id = 2,
+            UserId = 1
         };
         
-        await _service.TryDeleteNote(2);
+        await _service.TryDeleteNote(deletedNote);
         
-        var notes = await _service.TryGetNotes(user);
+        var notes = await _service.TryGetNotes(deletedNote.UserId ?? 0);
         var note = notes.FirstOrDefault(n => n.Id == 2);
 
         Assert.IsNull(note);

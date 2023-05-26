@@ -11,21 +11,15 @@ public class WorkingWithUsers: IUserRepository
     {
         _context = context;
     }
-
-    public async Task<List<User>> GetUsers()
-    {
-        return await _context.Users.ToListAsync();
-    }
+    
 
     public async Task<User> GetUserByEmail(string email)
     {
         var user = await _context.Users.Select(s => new User {Id = s.Id, Email = s.Email, Nickname = s.Nickname}).FirstOrDefaultAsync(u => u.Email == email);
 
         if (user == null)
-        {
             throw new Exception("User is not found!");
-        }
-        
+
         return user;
     }
 
@@ -44,6 +38,9 @@ public class WorkingWithUsers: IUserRepository
     public async Task ModifyUser(User model)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
+        
+        if (user == null)
+            throw new Exception("User is not found!");
 
         user.Email = model.Email;
         user.Password = model.Password;
@@ -55,6 +52,9 @@ public class WorkingWithUsers: IUserRepository
     public async Task ChangeEmail(int userId, string email)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        
+        if (user == null)
+            throw new Exception("User is not found!");
 
         user.Email = email;
 
@@ -64,6 +64,9 @@ public class WorkingWithUsers: IUserRepository
     public async Task DeleteUser(int? id)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        
+        if (user == null)
+            throw new Exception("User is not found!");
 
         _context.Users.Remove(user);
         

@@ -23,7 +23,7 @@ public class NoteController: ControllerBase
     public async Task<List<NoteModel>> GetNotes()
     {
         UserModel user = await _userService.GetUserByEmail(User.Identity.Name);
-        return await _noteService.TryGetNotes(user);
+        return await _noteService.TryGetNotes(user.Id ?? 0);
     }
     
     [HttpPost("AddNote")]
@@ -31,12 +31,8 @@ public class NoteController: ControllerBase
     {
         try
         {
-            var user = await _userService.GetUserByEmail(User.Identity.Name);
-            if (user == null)
-            {
-                throw new Exception("User is not found!");
-            }
-            await _noteService.TryAddNote(model, user);
+            await _noteService.TryAddNote(model);
+            
             return Ok("Note added successfully!");
         }
         catch (Exception e)
@@ -60,11 +56,11 @@ public class NoteController: ControllerBase
     }
     
     [HttpDelete("DeleteNote")]
-    public async Task<IActionResult> DeleteNote(int id)
+    public async Task<IActionResult> DeleteNote([FromBody] NoteModel model)
     {
         try
         {
-            await _noteService.TryDeleteNote(id);
+            await _noteService.TryDeleteNote(model);
             return Ok("Note deleted successfully!");
         }
         catch (Exception e)

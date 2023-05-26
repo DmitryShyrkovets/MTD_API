@@ -12,15 +12,13 @@ public class WorkingWithNotes: INoteRepository
         _context = context;
     }
 
-    public async Task<List<Note>> GetNotes(User user)
+    public async Task<List<Note>> GetNotes(int userId)
     {
-        return await _context.Notes.Where(n => n.User != null && n.UserId == user.Id).ToListAsync();
+        return await _context.Notes.Where(n => n.UserId == userId).ToListAsync();
     }
 
-    public async Task AddNote(Note model, User user)
+    public async Task AddNote(Note model)
     {
-        model.UserId = user.Id;
-        
         _context.Notes.Add(model);
         
         await _context.SaveChangesAsync();

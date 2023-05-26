@@ -1,5 +1,6 @@
 using AutoMapper;
 using Mapper;
+using Microsoft.Extensions.Caching.Memory;
 using RepositoryForTest;
 using Services;
 using Services.ViewModels;
@@ -10,7 +11,7 @@ public class UsersTests
 {
     private UserService _service;
     private WorkingWithUsers repository;
-    
+
     [SetUp]
     public void Setup()
     {
@@ -25,14 +26,7 @@ public class UsersTests
 
         _service = new UserService(repository, mapper);
     }
-
-    [Test]
-    public async Task GetUsers()
-    {
-        var users = await _service.GetUsers();
-
-        Assert.AreEqual(3, users.Count);
-    }
+    
     
     [Test]
     public async Task GetUser()
@@ -67,15 +61,16 @@ public class UsersTests
     [Test]
     public async Task ModifyUser()
     {
-        string email = "testemail@mail.ru";
+        //string email = "testemail@mail.ru";
         var modifyUser = new UserModel
         {
             Id = 1, 
             Nickname = "testName",
-            Password = "zxcasd"
+            Password = "zxcasd",
+            Email = "testemail@mail.ru"
         };
         
-        await _service.TryModifyUser(modifyUser, email);
+        await _service.TryModifyUser(modifyUser);
         
         var user = await _service.GetUserByEmail(modifyUser.Email);
         

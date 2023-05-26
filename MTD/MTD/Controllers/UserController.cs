@@ -16,11 +16,6 @@ public class UserController : ControllerBase
         _service = service;
     }
     
-    [HttpGet("GetUsers")]
-    public async Task<List<UserModel>> GetUsers()
-    {
-        return await _service.GetUsers();
-    }
     
     [HttpGet("GetUser")]
     public async Task<UserModel> GetUser()
@@ -47,7 +42,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            await _service.TryModifyUser(model, User.Identity.Name);
+            model.Email = User.Identity.Name;
+            await _service.TryModifyUser(model);
             return Ok("User modified successfully");
         }
         catch (Exception e)
