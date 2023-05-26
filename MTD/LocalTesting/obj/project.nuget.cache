@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JiIhXSoac+9LitqU6nVLOx2Va51riagbarkvotJPEmZBxWZZb5rMN91hEsS9u56dAUTd473c8Fjb6TlCXtQHwA==",
+  "dgSpecHash": "4s/UKTzhS6GYAFvKdQXse9w+R1AomNSAQ0N6TqakedCbhBx+t3Y/cWirKc8Odmhe9N2jP06drdVtrhGAiv+QvQ==",
   "success": true,
   "projectFilePath": "D:\\projects\\learn\\MTD\\API\\MTD\\LocalTesting\\LocalTesting.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,8 @@
     "C:\\Users\\zoldi\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
     "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.codecoverage\\17.5.0\\microsoft.codecoverage.17.5.0.nupkg.sha512",
     "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0-preview.4.23259.5\\microsoft.extensions.caching.abstractions.8.0.0-preview.4.23259.5.nupkg.sha512",
+    "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0-preview.4.23259.5\\microsoft.extensions.primitives.8.0.0-preview.4.23259.5.nupkg.sha512",
     "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.net.test.sdk\\17.5.0\\microsoft.net.test.sdk.17.5.0.nupkg.sha512",
     "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.testplatform.objectmodel\\17.5.0\\microsoft.testplatform.objectmodel.17.5.0.nupkg.sha512",

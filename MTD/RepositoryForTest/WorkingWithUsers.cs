@@ -10,11 +10,7 @@ public class WorkingWithUsers: IUserRepository
     {
         _context = new AppContextLocal();
     }
-
-    public async Task<List<User>> GetUsers()
-    {
-        return  _context.Users;
-    }
+    
 
     public async Task<User> GetUserByEmail(string email)
     {

@@ -11,11 +11,7 @@ public class WorkingWithUsers: IUserRepository
     {
         _context = context;
     }
-
-    public async Task<List<User>> GetUsers()
-    {
-        return await _context.Users.ToListAsync();
-    }
+    
 
     public async Task<User> GetUserByEmail(string email)
     {

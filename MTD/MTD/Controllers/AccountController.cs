@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Services.ServiceInterfaces;
 using Services.ViewModels;
 
@@ -12,10 +13,12 @@ namespace MTD.Controllers;
 public class AccountController : ControllerBase
 {
     private readonly IUserService _service;
+    private IMemoryCache _cache;
     
-    public AccountController(IUserService service)
+    public AccountController(IUserService service, IMemoryCache cache)
     {
         _service = service;
+        _cache = cache;
     }
     
     [HttpPost("Login")]
@@ -24,11 +27,16 @@ public class AccountController : ControllerBase
         if (await _service.UserVerification(model))
         {
             await Authenticate(model.Email);
+
+            var user = _service.GetUserByEmail(model.Email);
+            await _cache.Set(model.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            
             return Ok("Signed in successfully");
         }
         
         return Unauthorized("Wrong data");
     }
+    
     
     [HttpPut("ChangeEmail")]
     public async Task<IActionResult> ChangeEmail([FromBody]UserModel model)
@@ -64,6 +72,7 @@ public class AccountController : ControllerBase
     [HttpGet("Logout")]
     public async Task<IActionResult> Logout()
     {
+        _cache.Remove(User.Identity.Name);
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Ok("You have successfully logged out");
     }

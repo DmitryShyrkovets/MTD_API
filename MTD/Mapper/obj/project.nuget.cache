@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "vD36K4FrkpSam3SxGl1c0853T1i8NHmV70Qu0qMIHHXkE9gneSoenSE1zOcRJFPQ/AZgMP9wpsNV3BQaJ+Olyg==",
+  "dgSpecHash": "kJn8hkJ9Xga5d/bFP+V48FsouRfTIqJQV4YGPnDa0ueOb3RC8qiAeF97NCilzndf5wEUtcGTgp/QiJIKwWGeig==",
   "success": true,
   "projectFilePath": "D:\\projects\\learn\\MTD\\API\\MTD\\Mapper\\Mapper.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zoldi\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
-    "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+    "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0-preview.4.23259.5\\microsoft.extensions.caching.abstractions.8.0.0-preview.4.23259.5.nupkg.sha512",
+    "C:\\Users\\zoldi\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0-preview.4.23259.5\\microsoft.extensions.primitives.8.0.0-preview.4.23259.5.nupkg.sha512"
   ],
   "logs": []
 }
