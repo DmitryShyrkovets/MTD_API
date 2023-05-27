@@ -61,7 +61,6 @@ public class UsersTests
     [Test]
     public async Task ModifyUser()
     {
-        //string email = "testemail@mail.ru";
         var modifyUser = new UserModel
         {
             Id = 1, 
@@ -70,7 +69,7 @@ public class UsersTests
             Email = "testemail@mail.ru"
         };
         
-        await _service.TryModifyUser(modifyUser);
+        await _service.TryModifyUser(modifyUser, "qweasdzxc1", null);
         
         var user = await _service.GetUserByEmail(modifyUser.Email);
         
@@ -87,9 +86,10 @@ public class UsersTests
         {
             Id = 1, 
             Email = "123testemail@mail.ru",
+            Password = "qweasdzxc1"
         };
         
-        await _service.TryChangeEmail(modifyUser, email);
+        await _service.TryModifyUser(modifyUser,null, email);
         
         var user = await _service.GetUserByEmail(modifyUser.Email);
         

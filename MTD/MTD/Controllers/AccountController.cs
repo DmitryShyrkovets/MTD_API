@@ -57,26 +57,7 @@ public class AccountController : ControllerBase
         }
 
     }
-    
-    
-    [HttpPut("ChangeEmail")]
-    public async Task<IActionResult> ChangeEmail([FromBody]UserModel model)
-    {
-        try
-        {
-            await _service.TryChangeEmail(model, User.Identity.Name);
-            
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            await Authenticate(model.Email);
-            
-            return Ok("Successfully");
-        }
-        catch (Exception e)
-        {
-            return Ok(e.Message);
-        }
-    }
-    
+
     [NonAction]
     private async Task Authenticate(string userEmail)
     {
