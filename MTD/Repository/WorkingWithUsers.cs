@@ -23,13 +23,18 @@ public class WorkingWithUsers: IUserRepository
         return user;
     }
 
-    public async Task<bool> UserVerification(User obj)
+    public async Task<bool> UserVerification(User model)
     {
-        return await _context.Users.FirstOrDefaultAsync(u => u.Email == obj.Email && u.Password == obj.Password) != null;
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password) != null;
     }
 
     public async Task AddUser(User model)
     {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email || u.Password == model.Password);
+        
+        if (user != null)
+            throw new Exception("Email or password is not unique!");
+        
         _context.Users.Add(model);
         
         await _context.SaveChangesAsync();
@@ -53,7 +58,7 @@ public class WorkingWithUsers: IUserRepository
         if (oldPassword != null)
             user.Password = model.Password;
         
-        if (model.Password != null && oldEmail != null)
+        if (model.Password != null && oldEmail != null && model.Email != null)
             user.Email = model.Email;
         
         if (model.Nickname != null)

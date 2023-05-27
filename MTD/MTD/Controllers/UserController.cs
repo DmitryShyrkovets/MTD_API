@@ -37,7 +37,7 @@ public class UserController : ControllerBase
             
             await Authenticate(model.Email);
             
-            return Ok("Successfully");
+            return Ok("Email changed successfully!");
         }
         catch (Exception e)
         {
@@ -65,7 +65,7 @@ public class UserController : ControllerBase
         {
             model.Email = User.Identity.Name;
             await _service.TryModifyUser(model, oldPassword, null);
-            return Ok("User modified successfully");
+            return Ok("User changed successfully!");
         }
         catch (Exception e)
         {
@@ -79,7 +79,7 @@ public class UserController : ControllerBase
         try
         {
             await _service.TryDeleteUser(User.Identity.Name);
-            return Ok("User deleted successfully");
+            return Ok("User deleted successfully!");
         }
         catch (Exception e)
         {

@@ -50,9 +50,13 @@ public class UserService : IUserService
 
     public async Task TryAddUser(UserModel model)
     {
+        if (model.Email == null || model.Password == null || model.Nickname == null)
+            throw new Exception("You must fill in the data!");
+        
         var user = _mapper.Map<User>(model);
 
         await _repository.AddUser(user);
+        
         user.Password = null;
         
         var userModel = _mapper.Map<UserModel>(user);

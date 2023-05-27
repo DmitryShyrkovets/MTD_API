@@ -24,17 +24,24 @@ public class AccountController : ControllerBase
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody]UserModel model)
     {
-        if (await _service.UserVerification(model))
+        try
         {
+            if (!await _service.UserVerification(model))
+                throw new Exception("Wrong data!");
+                
             await Authenticate(model.Email);
 
             var user = await _service.GetUserByEmail(model.Email);
             _cache.Set(model.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
             
             return Ok("Signed in successfully");
+
         }
-        
-        return Unauthorized("Wrong data");
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
     }
     
     [HttpPost("Registration")]
