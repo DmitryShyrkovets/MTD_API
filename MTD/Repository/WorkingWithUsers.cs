@@ -35,28 +35,29 @@ public class WorkingWithUsers: IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task ModifyUser(User model)
+    public async Task ModifyUser(User model, string? oldPassword, string? oldEmail)
     {
+        var password = oldPassword ?? model.Password;
+        
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
         
         if (user == null)
             throw new Exception("User is not found!");
-
-        user.Email = model.Email;
-        user.Password = model.Password;
-        user.Nickname = model.Nickname;
         
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task ChangeEmail(int userId, string email)
-    {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if(password != null && user.Password != password)
+            throw new Exception("Password is wrong");
         
-        if (user == null)
-            throw new Exception("User is not found!");
+        if(oldEmail != null && user.Email != oldEmail)
+            throw new Exception("Email is wrong");
 
-        user.Email = email;
+        if (oldPassword != null)
+            user.Password = model.Password;
+        
+        if (model.Password != null && oldEmail != null)
+            user.Email = model.Email;
+        
+        if (model.Nickname != null)
+            user.Nickname = model.Nickname;
 
         await _context.SaveChangesAsync();
     }

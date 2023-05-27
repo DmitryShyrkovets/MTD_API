@@ -60,27 +60,15 @@ public class UserService : IUserService
         _cache?.Set(user.Email, userModel, options);
     }
 
-    public async Task TryModifyUser(UserModel model)
+    public async Task TryModifyUser(UserModel model, string? oldPassword, string? oldEmail)
     {
-        await UserDataChangeCheck(model, model.Email);
+        await UserDataChangeCheck(model, oldEmail ?? model.Email);
         
         var user = _mapper.Map<User>(model);
 
-        await _repository.ModifyUser(user);
+        await _repository.ModifyUser(user, oldPassword, oldEmail);
 
-        _cache?.Remove(model.Email);
-        _cache?.Set(model.Email, model, options);
-    }
-
-    public async Task TryChangeEmail(UserModel model, string oldEmail)
-    {
-        await UserDataChangeCheck(model, oldEmail);
-        
-        var user = _mapper.Map<User>(model);
-
-        await _repository.ChangeEmail(user.Id, user.Email);
-        
-        _cache?.Remove(oldEmail);
+        _cache?.Remove(oldEmail ?? model.Email);
         
         model = _mapper.Map<UserModel>( await GetUserByEmail(user.Email));
         
