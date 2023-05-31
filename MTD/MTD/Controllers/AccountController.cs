@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Services.ServiceInterfaces;
-using Services.ViewModels;
+using Services.DtoModels;
 
 namespace MTD.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class AccountController : ControllerBase
 {
     private readonly IUserService _service;
@@ -22,17 +22,17 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody]UserModel model)
+    public async Task<IActionResult> Login([FromBody]UserDto dto)
     {
         try
         {
-            if (!await _service.UserVerification(model))
+            if (!await _service.UserVerification(dto))
                 throw new Exception("Wrong data!");
                 
-            await Authenticate(model.Email);
+            await Authenticate(dto.Email);
 
-            var user = await _service.GetUserByEmail(model.Email);
-            _cache.Set(model.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            var user = await _service.GetUserByEmail(dto.Email);
+            _cache.Set(dto.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
             
             return Ok("Signed in successfully");
 
@@ -45,16 +45,16 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("Registration")]
-    public async Task<IActionResult> Registration([FromBody]UserModel model)
+    public async Task<IActionResult> Registration([FromBody]UserDto dto)
     {
         try
         {
-            await _service.TryAddUser(model);
+            await _service.TryAddUser(dto);
             
-            await Authenticate(model.Email);
+            await Authenticate(dto.Email);
 
-            var user = await _service.GetUserByEmail(model.Email);
-            _cache.Set(model.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            var user = await _service.GetUserByEmail(dto.Email);
+            _cache.Set(dto.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
             
             return Ok("Registration is successfully");
         }

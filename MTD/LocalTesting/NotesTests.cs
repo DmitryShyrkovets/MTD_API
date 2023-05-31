@@ -2,14 +2,14 @@ using AutoMapper;
 using Mapper;
 using RepositoryForTest;
 using Services;
-using Services.ViewModels;
+using Services.DtoModels;
 
 namespace LocalTesting;
 
 public class NotesTests
 {
     private NoteService _service;
-    private WorkingWithNotes repository;
+    private NoteRepository repository;
     
     [SetUp]
     public void Setup()
@@ -22,9 +22,9 @@ public class NotesTests
 
         IMapper mapper = mappingConfig.CreateMapper();
 
-        repository = new WorkingWithNotes();
+        repository = new NoteRepository();
 
-        _service = new NoteService(repository, mapper);
+        _service = new NoteService(repository, mapper, null);
     }
     
     [Test]
@@ -40,13 +40,13 @@ public class NotesTests
     [Test]
     public async Task CreateNote()
     {
-        var newNote = new NoteModel
+        var newNote = new NoteDto
         {
             Id = 10,
             UserId = 1,
-            Category = "testCategory",
             Name = "TestName",
-            Text = "testText"
+            Description = "testText",
+            CreateAt = DateTime.Now
         };
 
         await _service.TryAddNote(newNote);
@@ -57,25 +57,25 @@ public class NotesTests
     }
     
     [Test]
-    public async Task ModifyNote()
+    public async Task UpdateNote()
     {
-        var modifyNote = new NoteModel
+        var modifyNote = new NoteDto
         {
             Id = 3,
             UserId = 1,
-            Category = "testCategory",
             Name = "TestName",
-            Text = "testText"
+            Description = "testText",
+            Done = true
         };
 
-        await _service.TryAddNote(modifyNote);
+        await _service.TryUpdateNote(modifyNote);
         
         var notes = await _service.TryGetNotes(modifyNote.UserId ?? 0);
 
         var note = notes.FirstOrDefault(n => n.Id == modifyNote.Id && 
-                                             n.Category == modifyNote.Category && 
                                              n.Name == modifyNote.Name && 
-                                             n.Text == modifyNote.Text);
+                                             n.Description == modifyNote.Description &&
+                                             n.Done == modifyNote.Done);
 
         Assert.IsNotNull(note);
     }
@@ -83,7 +83,7 @@ public class NotesTests
     [Test]
     public async Task DeleteNote()
     {
-        var deletedNote = new NoteModel
+        var deletedNote = new NoteDto
         {
             Id = 2,
             UserId = 1

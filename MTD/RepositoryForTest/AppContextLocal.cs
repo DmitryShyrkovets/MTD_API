@@ -10,22 +10,34 @@ public class AppContextLocal
     public AppContextLocal()
     {
         Users = new List<User>{
-            new User { Id = 1, Nickname = "Tom1", Email = "testemail@mail.ru", Password = "qweasdzxc1" },
-            new User { Id = 2, Nickname = "Bob1", Email = "testemail2@mail.ru", Password = "qwerty1" },
-            new User { Id = 3, Nickname = "Tom1", Email = "testemail3@mail.ru", Password = "qweewqqwe1" }
+            new User { Id = 1, Email = "testemail@mail.ru", Password = "qweasdzxc1" },
+            new User { Id = 2, Email = "testemail2@mail.ru", Password = "qwerty1" },
+            new User { Id = 3, Email = "testemail3@mail.ru", Password = "qweewqqwe1" }
         };
 
         Notes = new List<Note>
         {
-            new Note { Id = 1, Category = "Test", Name = "TestName", Text = "TestText", UserId = 1, User = Users.FirstOrDefault(u => u.Id == 1) },
-            new Note { Id = 2, Category = "Test2", Name = "TestName2", Text = "TestText2", UserId = 1, User = Users.FirstOrDefault(u => u.Id == 1) },
-            new Note { Id = 3, Category = "Test3", Name = "TestName3", Text = "TestText3", UserId = 1, User = Users.FirstOrDefault(u => u.Id == 1) },
-            new Note { Id = 4, Category = "Test4", Name = "TestName4", Text = "TestText4", UserId = 2, User = Users.FirstOrDefault(u => u.Id == 2) },
-            new Note { Id = 5, Category = "Test5", Name = "TestName5", Text = "TestText5", UserId = 2, User = Users.FirstOrDefault(u => u.Id == 2) },
-            new Note { Id = 6, Category = "Test6", Name = "TestName6", Text = "TestText6", UserId = 2, User = Users.FirstOrDefault(u => u.Id == 2) },
-            new Note { Id = 7, Category = "Test7", Name = "TestName7", Text = "TestText7", UserId = 3, User = Users.FirstOrDefault(u => u.Id == 3) },
-            new Note { Id = 8, Category = "Test8", Name = "TestName8", Text = "TestText8", UserId = 3, User = Users.FirstOrDefault(u => u.Id == 3) },
-            new Note { Id = 9, Category = "Test9", Name = "TestName9", Text = "TestText9", UserId = 3, User = Users.FirstOrDefault(u => u.Id == 3) }
+            new Note { Id = 1, Name = "TestName", Description = "TestText", CreateAt = DateTime.Now, UserId = 1, User = Users.Find(u => u.Id == 1) },
+            new Note { Id = 2, Name = "TestName2", Description = "TestText2", Done = true,
+                CreateAt = new DateTime(2023, 5, 20, 18, 30, 25), DoneAt = new DateTime(2023, 5, 20, 20, 30, 25),
+                UserId = 1, User = Users.Find(u => u.Id == 1) },
+            new Note { Id = 3, Name = "TestName3", Description = "TestText3", Done = true, 
+                CreateAt = new DateTime(2023, 5, 21, 17, 30, 25), DoneAt = new DateTime(2023, 5, 21, 23, 30, 25), 
+                UserId = 1, User = Users.Find(u => u.Id == 1) },
+            new Note { Id = 4, Name = "TestName4", Description = "TestText4", Done = true,
+                CreateAt = new DateTime(2023, 5, 20, 19, 30, 25), 
+                UserId = 2, User = Users.Find(u => u.Id == 2) },
+            new Note { Id = 5, Name = "TestName5", Description = "TestText5", CreateAt = DateTime.Now, UserId = 2, User = Users.Find(u => u.Id == 2) },
+            new Note { Id = 6, Name = "TestName6", Description = "TestText6", Done = true,
+                CreateAt = new DateTime(2023, 5, 22, 20, 00, 25), DoneAt = new DateTime(2023, 5, 22, 23, 30, 25), 
+                UserId = 2, User = Users.Find(u => u.Id == 2) },
+            new Note { Id = 7, Name = "TestName7", Description = "TestText7", CreateAt = DateTime.Now, UserId = 3, User = Users.Find(u => u.Id == 3) },
+            new Note { Id = 8, Name = "TestName8", Description = "TestText8", Done = true,
+                CreateAt = new DateTime(2023, 5, 23, 21, 10, 25), DoneAt = new DateTime(2023, 5, 24, 15, 30, 25), 
+                UserId = 3, User = Users.Find(u => u.Id == 3) },
+            new Note { Id = 9, Name = "TestName9", Description = "TestText9", Done = true,
+                CreateAt = new DateTime(2023, 5, 24, 22, 20, 25), DoneAt = new DateTime(2023, 5, 27, 11, 10, 25), 
+                UserId = 3, User = Users.Find(u => u.Id == 3) }
         };
     }
 }
