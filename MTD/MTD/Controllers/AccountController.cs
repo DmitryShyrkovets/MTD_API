@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Services.Models.User.Requests;
 using Services.ServiceInterfaces;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace MTD.Controllers;
 
@@ -14,11 +16,13 @@ public class AccountController : ControllerBase
 {
     private readonly IUserService _service;
     private IMemoryCache _cache;
+    private IConfiguration _configuration;
     
-    public AccountController(IUserService service, IMemoryCache cache)
+    public AccountController(IUserService service, IMemoryCache cache, IConfiguration configuration)
     {
         _service = service;
         _cache = cache;
+        _configuration = configuration;
     }
     
     [HttpPost("Login")]
@@ -76,6 +80,47 @@ public class AccountController : ControllerBase
         ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+    }
+    
+    [HttpPost("RecoveryData")]
+    public async Task<IActionResult> RecoveryData([FromBody]RecoveryRequest recoveryRequest)
+    {
+        try
+        {
+            var user = await _service.GetUserForRecovery(recoveryRequest.Email);
+            
+            var emailMessage = new MimeMessage();
+            
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "mytodomtd@gmail.com"));
+            emailMessage.To.Add(new MailboxAddress("", recoveryRequest.Email));
+            emailMessage.Subject = "Данные авторизации вашего аккаунта";
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = "<h2>Данны вашего аккаунта: </h2>" +
+                       "<p>Логин: " + user.Email + "</p>" +
+                       "<p>Пароль: " + user.Password + "</p>" +
+                       "<h5>В целях безопасности после прочтения удалите письмо</h5>"
+            };
+
+            var userName = _configuration.GetValue<string>("Mail:Name");
+            var password = _configuration.GetValue<string>("Mail:Password");
+
+            using (var client = new SmtpClient())
+            {
+                await client.ConnectAsync("smtp.gmail.com", 465, true);
+                await client.AuthenticateAsync(userName, password);
+                await client.SendAsync(emailMessage);
+
+                await client.DisconnectAsync(true);
+            }
+
+            return Ok("Data sent by email");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
     }
     
     [HttpGet("Logout")]

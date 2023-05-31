@@ -12,6 +12,8 @@ public class MappingUser : Profile
         CreateMap<User, UserModel>();
         CreateMap<UserModel, User>();
         
+        CreateMap<User, RecoveryModel>();
+        
         CreateMap<AuthUserRequest, User>();
         
         CreateMap<UpdateEmailRequest, User>();

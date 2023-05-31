@@ -44,6 +44,16 @@ public class UserService : IUserService
         return user;
     }
 
+    public async Task<RecoveryModel> GetUserForRecovery(string email)
+    {
+        var userDb = await _repository.GetUserForRecovery(email);
+            
+        if (userDb is null)
+            throw new Exception("User is not found!!");
+            
+        return _mapper.Map<RecoveryModel>(userDb);
+    }
+
     public async Task<bool> UserVerification(AuthUserRequest authUserRequest)
     {
         return await _repository.UserVerification(authUserRequest.Email, authUserRequest.Password);
@@ -53,8 +63,13 @@ public class UserService : IUserService
     {
         if (string.IsNullOrEmpty(authUserRequest.Email) || string.IsNullOrEmpty(authUserRequest.Password))
             throw new Exception("You must fill in the data!");
-        if (! await _repository.IsEmailUnique(authUserRequest.Email))
+        
+        if (!await _repository.IsEmailUnique(authUserRequest.Email))
             throw new Exception("Email is not unique!");
+        
+        if (authUserRequest.Password.Length < 6)
+            throw new Exception("Password must be more than 5 characters!");
+
         
         var userDb = _mapper.Map<User>(authUserRequest);
 
@@ -119,6 +134,9 @@ public class UserService : IUserService
         
         if (updatePasswordRequest.Password == updatePasswordRequest.OldPassword)
             throw new Exception("Passwords are the same!");
+        
+        if (updatePasswordRequest.Password.Length < 6)
+            throw new Exception("Password must be more than 5 characters!");
 
         if (!await _repository.UserVerification(email, updatePasswordRequest.OldPassword))
             throw new Exception("Wrong password!");

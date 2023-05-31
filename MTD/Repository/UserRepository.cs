@@ -18,6 +18,11 @@ public class UserRepository: IUserRepository
         return await _context.Users.Select(s => new User {Id = s.Id, Email = s.Email}).FirstOrDefaultAsync(u => u.Email == email);
     }
 
+    public async Task<User> GetUserForRecovery(string email)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+    }
+
     public async Task<bool> UserVerification(string email, string password)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password) is not null;
