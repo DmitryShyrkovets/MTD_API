@@ -26,7 +26,7 @@ public class NoteService : INoteService
     }
 
 
-    public async Task<List<NoteModel>> TryGetNotes(int userId)
+    public async Task<List<NoteModel>> GetNotes(int userId)
     {
         if (userId == 0)
             throw new Exception("User id is null");
@@ -45,6 +45,28 @@ public class NoteService : INoteService
 
         return notes;
     }
+    
+    public async Task<NoteModel> GetNote(int userId, int noteId)
+    {
+        if (userId == 0)
+            throw new Exception("User id is null");
+
+        var note = _cache?.Get<NoteModel>(userId +"note" + noteId);
+
+        if (note is null)
+        {
+            var noteDb = await _repository.GetNote(userId, noteId);
+
+            if (noteDb is null)
+                throw new Exception("Note is not found!");
+        
+            note = _mapper.Map<NoteModel>(noteDb);
+            
+            _cache?.Set(userId +"note" + noteId, note, options);
+        }
+        
+        return note;
+    }
 
     public async Task TryAddNote(CreateNoteRequest createNoteRequest)
     {
@@ -57,8 +79,12 @@ public class NoteService : INoteService
         var noteDb = _mapper.Map<Note>(createNoteRequest);
 
         await _repository.AddNote(noteDb);
+        
+        var note = _mapper.Map<NoteModel>(noteDb);
 
-        await RewriteCache(noteDb.UserId);
+        _cache?.Set(note.UserId +"note" + note.Id, note, options);
+        
+        await RewriteNotesCache(noteDb.UserId);
     }
 
     public async Task TryUpdateNote(UpdateNoteRequest updateNoteRequest)
@@ -78,7 +104,13 @@ public class NoteService : INoteService
 
         await _repository.UpdateNote(noteDb);
         
-        await RewriteCache(noteDb.UserId);
+        _cache?.Remove(noteDb.UserId + "note" + noteDb.Id);
+        
+        var note = await GetNote(noteDb.UserId,  noteDb.Id);
+
+        _cache?.Set(note.UserId +"note" + note.Id, note, options);
+        
+        await RewriteNotesCache(noteDb.UserId);
     }
 
     public async Task TryDeleteNote(DeleteNoteRequest deleteNoteRequest)
@@ -89,18 +121,21 @@ public class NoteService : INoteService
             throw new Exception("User id is null!");
         
         var noteDb = _mapper.Map<Note>(deleteNoteRequest);
-        
+
         await _repository.DeleteNote(noteDb);
         
-        await RewriteCache(deleteNoteRequest.UserId);
+        _cache?.Remove(deleteNoteRequest.UserId + "note" + deleteNoteRequest.Id);
+
+        await RewriteNotesCache(deleteNoteRequest.UserId);
     }
 
-    private async Task RewriteCache(int userId)
+    private async Task RewriteNotesCache(int userId)
     {
         _cache?.Remove("notes" + userId);
-        
-        var notes = await TryGetNotes(userId);
 
+        var notes = await GetNotes(userId);
+        
         _cache?.Set("notes" +userId, notes, options);
+
     }
 }
