@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Models.User;
+using Services.Models.User.Requests;
 using Services.ServiceInterfaces;
-using Services.DtoModels;
 
 namespace MTD.Controllers;
 
@@ -21,21 +22,21 @@ public class ProfileController : ControllerBase
     
     
     [HttpGet]
-    public async Task<UserDto> GetUser()
+    public async Task<UserModel> GetUser()
     {
         return await _service.GetUserByEmail(User.Identity.Name);
     }
     
-    [HttpPut("ChangeEmail")]
-    public async Task<IActionResult> ChangeEmail([FromBody]UserDto dto)
+    [HttpPut("UpdateEmail")]
+    public async Task<IActionResult> UpdateEmail([FromBody]UpdateEmailRequest updateEmailRequest)
     {
         try
         {
-            await _service.TryUpdateUser(dto, User.Identity.Name, null);
+            await _service.TryUpdateEmail(updateEmailRequest, User.Identity.Name);
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             
-            await Authenticate(dto.Email);
+            await Authenticate(updateEmailRequest.Email);
             
             return Ok("Email changed successfully!");
         }
@@ -58,14 +59,13 @@ public class ProfileController : ControllerBase
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
     }
 
-    [HttpPut("ChangePassword")]
-    public async Task<IActionResult> ChangePassword([FromBody] UserDto dto, string oldPassword)
+    [HttpPut("UpdatePassword")]
+    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequest updatePasswordRequest, string oldPassword)
     {
         try
         {
-            dto.Email = User.Identity.Name;
-            await _service.TryUpdateUser(dto, null, oldPassword);
-            return Ok("User changed successfully!");
+            await _service.TryUpdatePassword(updatePasswordRequest, User.Identity.Name);
+            return Ok("Password changed successfully!");
         }
         catch (Exception e)
         {

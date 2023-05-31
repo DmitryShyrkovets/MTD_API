@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Caching.Memory;
 using Models.DbModels;
 using Models.RepositoryInterfaces;
+using Services.Models.User;
+using Services.Models.User.Requests;
 using Services.ServiceInterfaces;
-using Services.DtoModels;
 
 namespace Services;
 
@@ -24,9 +25,9 @@ public class UserService : IUserService
         options = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
     }
 
-    public async Task<UserDto> GetUserByEmail(string email)
+    public async Task<UserModel> GetUserByEmail(string email)
     {
-        var user = _cache?.Get<UserDto>(email);
+        var user = _cache?.Get<UserModel>(email);
 
         if (user is null)
         {
@@ -35,79 +36,97 @@ public class UserService : IUserService
             if (userDb is null)
                 throw new Exception("User is not found!!");
             
-            var userModel = _mapper.Map<UserDto>(userDb);
+            user = _mapper.Map<UserModel>(userDb);
             
-            _cache?.Set(email, userModel, options);
-            
-            return userModel;
+            _cache?.Set(email, user, options);
         }
 
-        return _mapper.Map<UserDto>(user);
+        return user;
     }
 
-    public async Task<bool> UserVerification(UserDto dto)
+    public async Task<bool> UserVerification(AuthUserRequest authUserRequest)
     {
-        return await _repository.UserVerification(dto.Email, dto.Password);
+        return await _repository.UserVerification(authUserRequest.Email, authUserRequest.Password);
     }
 
-    public async Task TryAddUser(UserDto dto)
+    public async Task TryAddUser(AuthUserRequest authUserRequest)
     {
-        if (string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Password))
+        if (string.IsNullOrEmpty(authUserRequest.Email) || string.IsNullOrEmpty(authUserRequest.Password))
             throw new Exception("You must fill in the data!");
-        if (! await _repository.IsEmailUnique(dto.Email))
+        if (! await _repository.IsEmailUnique(authUserRequest.Email))
             throw new Exception("Email is not unique!");
         
-        var user = _mapper.Map<User>(dto);
+        var userDb = _mapper.Map<User>(authUserRequest);
 
-        await _repository.AddUser(user);
+        await _repository.AddUser(userDb);
+
+        var user = _mapper.Map<UserModel>(userDb);
         
-        user.Password = null;
-        
-        var userModel = _mapper.Map<UserDto>(user);
-        
-        _cache?.Set(user.Email, userModel, options);
+        _cache?.Set(user.Email, user, options);
     }
 
-    public async Task TryUpdateUser(UserDto dto, string? oldEmail, string? oldPassword)
+    public async Task TryUpdateEmail(UpdateEmailRequest updateEmailRequest, string oldEmail)
     {
-        await UserDataChangeCheck(dto, oldEmail, oldPassword);
-        
-        var user = _mapper.Map<User>(dto);
-        
-        await _repository.UpdateUser(user);
-        
-        _cache?.Remove(oldEmail ?? dto.Email);
-        
-        dto = _mapper.Map<UserDto>( await GetUserByEmail(user.Email));
-        
-        _cache?.Set(dto.Email, dto, options);
-    }
+        await DataCheckForEmailUpdate(updateEmailRequest, oldEmail);
 
-    private async Task UserDataChangeCheck(UserDto user, string? email, string? oldPassword)
+        var userDb = _mapper.Map<User>(updateEmailRequest);
+        
+        await _repository.UpdateEmail(userDb);
+        
+        _cache?.Remove(oldEmail);
+        
+        var user = _mapper.Map<UserModel>( await GetUserByEmail(userDb.Email));
+        
+        _cache?.Set(user.Email, user, options);
+    }
+    
+    private async Task DataCheckForEmailUpdate(UpdateEmailRequest updateEmailRequest, string oldEmail)
     {
-        if (user.Id is null || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password))
+        if (updateEmailRequest.Id == 0 || string.IsNullOrEmpty(updateEmailRequest.Email) || string.IsNullOrEmpty(updateEmailRequest.Password))
             throw new Exception("User data is empty!");
-        
-        if (!string.IsNullOrEmpty(email) && !await _repository.IsEmailUnique(user.Email))
+
+        if (!await _repository.IsEmailUnique(updateEmailRequest.Email))
             throw new Exception("Email is not Unique!");
 
-        if (!string.IsNullOrEmpty(oldPassword) && !await _repository.UserVerification(user.Email, oldPassword))
+        if (!await _repository.UserVerification(oldEmail, updateEmailRequest.Password))
             throw new Exception("Wrong password!");
+
+        var user = await GetUserByEmail(oldEmail);
+
+        if (updateEmailRequest.Id != user.Id)
+            throw new Exception("Wrong user id! You can't change someone else's account information!");
+    }
+
+    public async Task TryUpdatePassword(UpdatePasswordRequest updatePasswordRequest, string email)
+    {
+        await DataCheckForPasswordUpdate(updatePasswordRequest, email);
         
-        if (!string.IsNullOrEmpty(email) && !await _repository.UserVerification(email, user.Password))
-            throw new Exception("Wrong password!");
+        var userDb = _mapper.Map<User>(updatePasswordRequest);
         
-        if (!string.IsNullOrEmpty(email) && user.Email == email)
-            throw new Exception("Emails are the same!");
+        await _repository.UpdatePassword(userDb);
         
-        if (!string.IsNullOrEmpty(oldPassword) && user.Password == oldPassword)
+        _cache?.Remove(email);
+        
+        var user = _mapper.Map<UserModel>( await GetUserByEmail(email));
+        
+        _cache?.Set(user.Email, user, options);
+    }
+    
+    private async Task DataCheckForPasswordUpdate(UpdatePasswordRequest updatePasswordRequest, string email)
+    {
+        if (updatePasswordRequest.Id == 0 || string.IsNullOrEmpty(updatePasswordRequest.Password) || string.IsNullOrEmpty(updatePasswordRequest.OldPassword))
+            throw new Exception("User data is empty!");
+        
+        if (updatePasswordRequest.Password == updatePasswordRequest.OldPassword)
             throw new Exception("Passwords are the same!");
 
-        var userObj = await GetUserByEmail(email ?? user.Email);
+        if (!await _repository.UserVerification(email, updatePasswordRequest.OldPassword))
+            throw new Exception("Wrong password!");
 
-        if (user.Id != userObj.Id)
+        var user = await GetUserByEmail(email);
+
+        if (updatePasswordRequest.Id != user.Id)
             throw new Exception("Wrong user id! You can't change someone else's account information!");
-
     }
 
     public async Task TryDeleteUser(string email)

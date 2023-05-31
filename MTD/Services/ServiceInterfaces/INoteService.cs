@@ -1,11 +1,12 @@
-using Services.DtoModels;
+using Services.Models.Note;
+using Services.Models.Note.Requests;
 
 namespace Services.ServiceInterfaces;
 
 public interface INoteService
 {
-    public Task<List<NoteDto>> TryGetNotes(int userId);
-    public Task TryAddNote(NoteDto noteDto);
-    public Task TryUpdateNote(NoteDto dto);
-    public Task TryDeleteNote(NoteDto dto);
+    public Task<List<NoteModel>> TryGetNotes(int userId);
+    public Task TryAddNote(CreateNoteRequest createNoteRequest);
+    public Task TryUpdateNote(UpdateNoteRequest updateNoteRequest);
+    public Task TryDeleteNote(DeleteNoteRequest deleteNoteRequest);
 }

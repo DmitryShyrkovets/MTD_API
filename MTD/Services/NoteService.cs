@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Caching.Memory;
 using Models.DbModels;
 using Models.RepositoryInterfaces;
+using Services.Models.Note;
+using Services.Models.Note.Requests;
 using Services.ServiceInterfaces;
-using Services.DtoModels;
 
 namespace Services;
 
@@ -25,71 +26,73 @@ public class NoteService : INoteService
     }
 
 
-    public async Task<List<NoteDto>> TryGetNotes(int userId)
+    public async Task<List<NoteModel>> TryGetNotes(int userId)
     {
         if (userId == 0)
             throw new Exception("User id is null");
 
-        var notesCache = _cache?.Get<List<NoteDto>>("notes" + userId);
+        var notes = _cache?.Get<List<NoteModel>>("notes" + userId);
 
-        if (notesCache is null)
+        if (notes is null)
         {
-            var notes = await _repository.GetNotes(userId);
-            var noteModels = _mapper.Map<List<NoteDto>>(notes);
+            var notesDb = await _repository.GetNotes(userId);
             
-            _cache?.Set("notes" + userId, noteModels, options);
-
-            return noteModels;
+            notes = _mapper.Map<List<NoteModel>>(notesDb);
+            
+            _cache?.Set("notes" + userId, notes, options);
         }
         
 
-        return notesCache;
+        return notes;
     }
 
-    public async Task TryAddNote(NoteDto noteDto)
+    public async Task TryAddNote(CreateNoteRequest createNoteRequest)
     {
-        if (string.IsNullOrEmpty(noteDto.Name) || string.IsNullOrEmpty(noteDto.Description))
+        if (string.IsNullOrEmpty(createNoteRequest.Name) || string.IsNullOrEmpty(createNoteRequest.Description))
             throw new Exception("We must enter data!");
 
-        if (noteDto.UserId is null || noteDto.UserId == 0)
+        if (createNoteRequest.UserId == 0)
             throw new Exception("User id is null!");
         
-        var note = _mapper.Map<Note>(noteDto);
-        
-        note.CreateAt = DateTime.Now;
-        note.Done = false;
-        note.DoneAt = null;
+        var noteDb = _mapper.Map<Note>(createNoteRequest);
 
-        await _repository.AddNote(note);
+        await _repository.AddNote(noteDb);
 
-        await RewriteCache(noteDto.UserId ?? 0);
+        await RewriteCache(noteDb.UserId);
     }
 
-    public async Task TryUpdateNote(NoteDto dto)
+    public async Task TryUpdateNote(UpdateNoteRequest updateNoteRequest)
     {
-        if (dto.Id is null || string.IsNullOrEmpty(dto.Name) || string.IsNullOrEmpty(dto.Description))
+        if (string.IsNullOrEmpty(updateNoteRequest.Name) || string.IsNullOrEmpty(updateNoteRequest.Description))
             throw new Exception("We must enter data! ");
         
-        if (dto.UserId is null || dto.UserId == 0)
+        if (updateNoteRequest.UserId == 0)
             throw new Exception("User id is null!");
 
-        var note = _mapper.Map<Note>(dto);
+        var noteDb = _mapper.Map<Note>(updateNoteRequest);
 
-        if (note.Done)
-            note.DoneAt = DateTime.Now;
+        if (noteDb.Done)
+            noteDb.DoneAt = DateTime.Now;
         else
-            note.DoneAt = null;
+            noteDb.DoneAt = null;
 
-        await _repository.UpdateNote(note);
+        await _repository.UpdateNote(noteDb);
         
-        await RewriteCache(dto.UserId ?? 0);
+        await RewriteCache(noteDb.UserId);
     }
 
-    public async Task TryDeleteNote(NoteDto dto)
+    public async Task TryDeleteNote(DeleteNoteRequest deleteNoteRequest)
     {
-        await _repository.DeleteNote(dto.Id ?? throw new Exception("Note id is null! "));
+        if (deleteNoteRequest.Id == 0)
+            throw new Exception("Note id is null!");
+        if (deleteNoteRequest.UserId == 0)
+            throw new Exception("User id is null!");
         
-        await RewriteCache(dto.UserId ?? throw new Exception("User id is null! "));
+        var noteDb = _mapper.Map<Note>(deleteNoteRequest);
+        
+        await _repository.DeleteNote(noteDb);
+        
+        await RewriteCache(deleteNoteRequest.UserId);
     }
 
     private async Task RewriteCache(int userId)

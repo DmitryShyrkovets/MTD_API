@@ -28,31 +28,39 @@ public class UserRepository: IUserRepository
         return await _context.Users.FirstOrDefaultAsync(u => u.Email == email) is null;
     }
 
-    public async Task AddUser(User model)
+    public async Task AddUser(User user)
     {
-        _context.Users.Add(model);
+        _context.Users.Add(user);
         
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateUser(User model)
+    public async Task UpdateEmail(User user)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
-
-        user.Email = model.Email;
-        user.Password = model.Password;
-
+        var userDb = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+        
+        userDb.Email = user.Email;
+        
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task UpdatePassword(User user)
+    {
+        var userDb = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+        
+        userDb.Password = user.Password;
+        
         await _context.SaveChangesAsync();
     }
 
     public async Task DeleteUser(int? id)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        var userDb = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         
-        if (user is null)
+        if (userDb is null)
             throw new Exception("User is not found!");
 
-        _context.Users.Remove(user);
+        _context.Users.Remove(userDb);
         
         await _context.SaveChangesAsync();
     }

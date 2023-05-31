@@ -17,36 +17,41 @@ public class NoteRepository: INoteRepository
         return await _context.Notes.Where(n => n.UserId == userId).ToListAsync();
     }
 
-    public async Task AddNote(Note model)
+    public async Task AddNote(Note note)
     {
-        _context.Notes.Add(model);
+        var user = await _context.Users.FirstOrDefaultAsync(n => n.Id == note.UserId);
+        
+        if (user is null)
+            throw new Exception("User for note is not found!");
+        
+        _context.Notes.Add(note);
         
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateNote(Note model)
+    public async Task UpdateNote(Note note)
     {
-        var note = await _context.Notes.FirstOrDefaultAsync(n => n.Id == model.Id);
+        var noteDb = await _context.Notes.FirstOrDefaultAsync(n => n.Id == note.Id && n.UserId == note.UserId);
         
-        if (note is null)
+        if (noteDb is null)
             throw new Exception("Note is not found!");
 
-        note.Name = model.Name;
-        note.Description = model.Description;
-        note.Done = model.Done;
-        note.DoneAt = model.DoneAt;
+        noteDb.Name = note.Name;
+        noteDb.Description = note.Description;
+        noteDb.Done = note.Done;
+        noteDb.DoneAt = note.DoneAt;
         
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteNote(int id)
+    public async Task DeleteNote(Note note)
     {
-        var note = await _context.Notes.FirstOrDefaultAsync(n => n.Id == id);
+        var noteDb = await _context.Notes.FirstOrDefaultAsync(n => n.Id == note.Id && n.UserId == note.UserId);
         
-        if (note is null)
+        if (noteDb is null)
             throw new Exception("Note is not found!");
 
-        _context.Notes.Remove(note);
+        _context.Notes.Remove(noteDb);
         
         await _context.SaveChangesAsync();
     }

@@ -2,7 +2,7 @@ using AutoMapper;
 using Mapper;
 using RepositoryForTest;
 using Services;
-using Services.DtoModels;
+using Services.Models.Note.Requests;
 
 namespace LocalTesting;
 
@@ -40,18 +40,16 @@ public class NotesTests
     [Test]
     public async Task CreateNote()
     {
-        var newNote = new NoteDto
+        var createNoteRequest = new CreateNoteRequest
         {
-            Id = 10,
             UserId = 1,
             Name = "TestName",
-            Description = "testText",
-            CreateAt = DateTime.Now
+            Description = "testText"
         };
 
-        await _service.TryAddNote(newNote);
+        await _service.TryAddNote(createNoteRequest);
         
-        var notes = await _service.TryGetNotes(newNote.UserId ?? 0);
+        var notes = await _service.TryGetNotes(createNoteRequest.UserId);
 
         Assert.AreEqual(4, notes.Count);
     }
@@ -59,7 +57,7 @@ public class NotesTests
     [Test]
     public async Task UpdateNote()
     {
-        var modifyNote = new NoteDto
+        var updateNoteRequest = new UpdateNoteRequest
         {
             Id = 3,
             UserId = 1,
@@ -68,14 +66,14 @@ public class NotesTests
             Done = true
         };
 
-        await _service.TryUpdateNote(modifyNote);
+        await _service.TryUpdateNote(updateNoteRequest);
         
-        var notes = await _service.TryGetNotes(modifyNote.UserId ?? 0);
+        var notes = await _service.TryGetNotes(updateNoteRequest.UserId);
 
-        var note = notes.FirstOrDefault(n => n.Id == modifyNote.Id && 
-                                             n.Name == modifyNote.Name && 
-                                             n.Description == modifyNote.Description &&
-                                             n.Done == modifyNote.Done);
+        var note = notes.FirstOrDefault(n => n.Id == updateNoteRequest.Id && 
+                                             n.Name == updateNoteRequest.Name && 
+                                             n.Description == updateNoteRequest.Description &&
+                                             n.Done == updateNoteRequest.Done);
 
         Assert.IsNotNull(note);
     }
@@ -83,15 +81,15 @@ public class NotesTests
     [Test]
     public async Task DeleteNote()
     {
-        var deletedNote = new NoteDto
+        var deleteNoteRequest = new DeleteNoteRequest
         {
             Id = 2,
             UserId = 1
         };
         
-        await _service.TryDeleteNote(deletedNote);
+        await _service.TryDeleteNote(deleteNoteRequest);
         
-        var notes = await _service.TryGetNotes(deletedNote.UserId ?? 0);
+        var notes = await _service.TryGetNotes(deleteNoteRequest.UserId);
         var note = notes.FirstOrDefault(n => n.Id == 2);
 
         Assert.IsNull(note);
