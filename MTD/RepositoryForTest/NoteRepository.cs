@@ -16,32 +16,37 @@ public class NoteRepository : INoteRepository
         return _context.Notes.Where(n => n.UserId == userId).ToList();
     }
 
-    public async Task AddNote(Note model)
+    public async Task AddNote(Note note)
     {
-        _context.Notes.Add(model);
+        var userDb = _context.Users.FirstOrDefault(n => n.Id == note.UserId);
+        
+        if (userDb is null)
+            throw new Exception("User for note is not found!");
+        
+        _context.Notes.Add(note);
     }
 
-    public async Task UpdateNote(Note model)
+    public async Task UpdateNote(Note note)
     {
-        var note = _context.Notes.FirstOrDefault(n => n.Id == model.Id);
+        var noteDb = _context.Notes.FirstOrDefault(n => n.Id == note.Id && n.UserId == note.UserId);
         
-        if (note is null)
+        if (noteDb is null)
             throw new Exception("Note is not found!");
 
-        note.Name = model.Name;
-        note.Description = model.Description;
-        note.Done = model.Done;
-        note.DoneAt = model.DoneAt;
+        noteDb.Name = note.Name;
+        noteDb.Description = note.Description;
+        noteDb.Done = note.Done;
+        noteDb.DoneAt = note.DoneAt;
 
     }
 
-    public async Task DeleteNote(int id)
+    public async Task DeleteNote(Note note)
     {
-        var note = _context.Notes.FirstOrDefault(n => n.Id == id);
+        var noteDb = _context.Notes.FirstOrDefault(n => n.Id == note.Id && n.UserId == note.UserId);
         
-        if (note is null)
+        if (noteDb is null)
             throw new Exception("Note is not found!");
 
-        _context.Notes.Remove(note);
+        _context.Notes.Remove(noteDb);
     }
 }

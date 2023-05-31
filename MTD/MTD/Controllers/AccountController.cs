@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Services.Models.User.Requests;
 using Services.ServiceInterfaces;
-using Services.DtoModels;
 
 namespace MTD.Controllers;
 
@@ -22,17 +22,17 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody]UserDto dto)
+    public async Task<IActionResult> Login([FromBody]AuthUserRequest authUserRequest)
     {
         try
         {
-            if (!await _service.UserVerification(dto))
+            if (!await _service.UserVerification(authUserRequest))
                 throw new Exception("Wrong data!");
                 
-            await Authenticate(dto.Email);
+            await Authenticate(authUserRequest.Email);
 
-            var user = await _service.GetUserByEmail(dto.Email);
-            _cache.Set(dto.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            var user = await _service.GetUserByEmail(authUserRequest.Email);
+            _cache.Set(user.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
             
             return Ok("Signed in successfully");
 
@@ -45,16 +45,16 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("Registration")]
-    public async Task<IActionResult> Registration([FromBody]UserDto dto)
+    public async Task<IActionResult> Registration([FromBody]AuthUserRequest authUserRequest)
     {
         try
         {
-            await _service.TryAddUser(dto);
+            await _service.TryAddUser(authUserRequest);
             
-            await Authenticate(dto.Email);
+            await Authenticate(authUserRequest.Email);
 
-            var user = await _service.GetUserByEmail(dto.Email);
-            _cache.Set(dto.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            var user = await _service.GetUserByEmail(authUserRequest.Email);
+            _cache.Set(user.Email, user, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
             
             return Ok("Registration is successfully");
         }
@@ -82,7 +82,9 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         _cache.Remove(User.Identity.Name);
+        
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        
         return Ok("You have successfully logged out");
     }
 }

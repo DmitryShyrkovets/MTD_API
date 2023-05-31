@@ -2,7 +2,7 @@ using AutoMapper;
 using Mapper;
 using RepositoryForTest;
 using Services;
-using Services.DtoModels;
+using Services.Models.User.Requests;
 
 namespace LocalTesting;
 
@@ -41,74 +41,73 @@ public class UsersTests
     [Test]
     public async Task CreateUser()
     {
-        var newUser = new UserDto
+        var authUserRequest = new AuthUserRequest
         {
-            Id = 4,
             Email = "test@mail.ru",
             Password = "zxcasd"
         };
         
-        await _service.TryAddUser(newUser);
+        await _service.TryAddUser(authUserRequest);
         
-        var user = await _service.GetUserByEmail(newUser.Email);
+        var user = await _service.GetUserByEmail(authUserRequest.Email);
         
         Assert.NotNull(user);
         Assert.NotNull(user.Id);
     }
     
     [Test]
-    public async Task ChangePassword()
+    public async Task UpdatePassword()
     {
-        var modifyUser = new UserDto
+        var updatePasswordRequest = new UpdatePasswordRequest
         {
             Id = 1,
             Password = "zxcasd",
-            Email = "testemail@mail.ru"
+            OldPassword = "qweasdzxc1"
         };
+
+        var email = "testemail@mail.ru";
         
-        await _service.TryUpdateUser(modifyUser,  null,"qweasdzxc1");
+        await _service.TryUpdatePassword(updatePasswordRequest,  email);
         
-        var user = await _service.GetUserByEmail(modifyUser.Email);
+        var user = await _service.GetUserByEmail(email);
         
         Assert.NotNull(user);
-        Assert.NotNull(user.Id);
+        
+        var authUserRequest = new AuthUserRequest
+        {
+            Email = "testemail@mail.ru",
+            Password = "zxcasd"
+        };
+        
+        Assert.AreEqual(true, await _service.UserVerification(authUserRequest));
     }
     
     [Test]
-    public async Task ChangeEmail()
+    public async Task UpdateEmail()
     {
-        var modifyUser = new UserDto
+        var updateEmailRequest = new UpdateEmailRequest
         {
             Id = 2,
             Password = "qwerty1",
             Email = "testemail23@mail.ru"
         };
         
-        await _service.TryUpdateUser(modifyUser,  "testemail2@mail.ru", null);
+        var oldEmail = "testemail2@mail.ru";
         
-        var user = await _service.GetUserByEmail(modifyUser.Email);
+        await _service.TryUpdateEmail(updateEmailRequest,  oldEmail);
+        
+        var user = await _service.GetUserByEmail(updateEmailRequest.Email);
         
         Assert.NotNull(user);
-        Assert.NotNull(user.Id);
-    }
-    
-    [Test]
-    public async Task TryChangeEmail()
-    {
-        string email = "testemail@mail.ru";
-        var modifyUser = new UserDto
+        
+        var authUserRequest = new AuthUserRequest
         {
-            Id = 1, 
-            Email = "123testemail@mail.ru",
-            Password = "qweasdzxc1"
+            Email = "testemail23@mail.ru",
+            Password = "qwerty1"
         };
         
-        await _service.TryUpdateUser(modifyUser, email, null);
-        
-        var user = await _service.GetUserByEmail(modifyUser.Email);
-        
-        Assert.NotNull(user);
-        Assert.NotNull(user.Id);
+        Assert.AreEqual(true, await _service.UserVerification(authUserRequest));
     }
+    
     
 }

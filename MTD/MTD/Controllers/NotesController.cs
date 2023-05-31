@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Models.Note;
+using Services.Models.Note.Requests;
+using Services.Models.User;
 using Services.ServiceInterfaces;
-using Services.DtoModels;
 
 namespace MTD.Controllers;
 
@@ -20,18 +22,18 @@ public class NotesController: ControllerBase
     }
     
     [HttpGet]
-    public async Task<List<NoteDto>> GetNotes()
+    public async Task<List<NoteModel>> GetNotes()
     {
-        UserDto user = await _userService.GetUserByEmail(User.Identity.Name);
-        return await _noteService.TryGetNotes(user.Id ?? 0);
+        UserModel user = await _userService.GetUserByEmail(User.Identity.Name);
+        return await _noteService.TryGetNotes(user.Id);
     }
     
     [HttpPost]
-    public async Task<IActionResult> AddNote([FromBody] NoteDto dto)
+    public async Task<IActionResult> AddNote([FromBody] CreateNoteRequest createNoteRequest)
     {
         try
         {
-            await _noteService.TryAddNote(dto);
+            await _noteService.TryAddNote(createNoteRequest);
             
             return Ok("Note added successfully!");
         }
@@ -42,12 +44,12 @@ public class NotesController: ControllerBase
     }
     
     [HttpPut]
-    public async Task<IActionResult> UpdateNote([FromBody] NoteDto dto)
+    public async Task<IActionResult> UpdateNote([FromBody] UpdateNoteRequest updateNoteRequest)
     {
         try
         {
-            await _noteService.TryUpdateNote(dto);
-            return Ok("Note modified successfully!");
+            await _noteService.TryUpdateNote(updateNoteRequest);
+            return Ok("Note updated successfully!");
         }
         catch (Exception e)
         {
@@ -56,11 +58,11 @@ public class NotesController: ControllerBase
     }
     
     [HttpDelete]
-    public async Task<IActionResult> DeleteNote([FromBody] NoteDto dto)
+    public async Task<IActionResult> DeleteNote([FromBody] DeleteNoteRequest deleteNoteRequest)
     {
         try
         {
-            await _noteService.TryDeleteNote(dto);
+            await _noteService.TryDeleteNote(deleteNoteRequest);
             return Ok("Note deleted successfully!");
         }
         catch (Exception e)

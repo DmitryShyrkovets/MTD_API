@@ -27,23 +27,29 @@ public class UserRepository: IUserRepository
         return  _context.Users.FirstOrDefault(u => u.Email == email) is null;
     }
 
-    public async Task AddUser(User model)
+    public async Task AddUser(User user)
     {
-        _context.Users.Add(model);
+        _context.Users.Add(user);
     }
-
-    public async Task UpdateUser(User model)
+    
+    public async Task UpdateEmail(User user)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Id == model.Id);
+        var userDb = _context.Users.FirstOrDefault(u => u.Id == user.Id);
 
-        user.Email = model.Email;
-        user.Password = model.Password;
+        userDb.Email = user.Email;
+    }
+    
+    public async Task UpdatePassword(User user)
+    {
+        var userDb = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+        
+        userDb.Password = user.Password;
     }
 
     public async Task DeleteUser(int? id)
     {
-        var user =  _context.Users.FirstOrDefault(u => u.Id == id);
+        var userDb =  _context.Users.FirstOrDefault(u => u.Id == id);
 
-        _context.Users.Remove(user);
+        _context.Users.Remove(userDb);
     }
 }
