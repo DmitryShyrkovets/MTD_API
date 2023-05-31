@@ -16,6 +16,11 @@ public class NoteRepository : INoteRepository
         return _context.Notes.Where(n => n.UserId == userId).ToList();
     }
 
+    public async Task<Note> GetNote(int userId, int noteId)
+    {
+        return _context.Notes.FirstOrDefault(n => n.Id == noteId && n.UserId == userId);
+    }
+
     public async Task AddNote(Note note)
     {
         var userDb = _context.Users.FirstOrDefault(n => n.Id == note.UserId);

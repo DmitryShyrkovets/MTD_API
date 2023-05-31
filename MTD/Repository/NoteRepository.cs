@@ -17,6 +17,11 @@ public class NoteRepository: INoteRepository
         return await _context.Notes.Where(n => n.UserId == userId).ToListAsync();
     }
 
+    public async Task<Note> GetNote(int userId, int noteId)
+    {
+        return await _context.Notes.FirstOrDefaultAsync(n => n.Id == noteId && n.UserId == userId);
+    }
+
     public async Task AddNote(Note note)
     {
         var user = await _context.Users.FirstOrDefaultAsync(n => n.Id == note.UserId);

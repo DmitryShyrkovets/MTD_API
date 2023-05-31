@@ -32,9 +32,20 @@ public class NotesTests
     {
         int userId = 1;
         
-        var notes = await _service.TryGetNotes(userId);
+        var notes = await _service.GetNotes(userId);
 
         Assert.AreEqual(3, notes.Count);
+    }
+    
+    [Test]
+    public async Task GetNote()
+    {
+        int userId = 1;
+        int noteId = 1;
+        
+        var note = await _service.GetNote(userId, noteId);
+
+        Assert.IsNotNull(note);
     }
     
     [Test]
@@ -49,7 +60,7 @@ public class NotesTests
 
         await _service.TryAddNote(createNoteRequest);
         
-        var notes = await _service.TryGetNotes(createNoteRequest.UserId);
+        var notes = await _service.GetNotes(createNoteRequest.UserId);
 
         Assert.AreEqual(4, notes.Count);
     }
@@ -68,14 +79,12 @@ public class NotesTests
 
         await _service.TryUpdateNote(updateNoteRequest);
         
-        var notes = await _service.TryGetNotes(updateNoteRequest.UserId);
-
-        var note = notes.FirstOrDefault(n => n.Id == updateNoteRequest.Id && 
-                                             n.Name == updateNoteRequest.Name && 
-                                             n.Description == updateNoteRequest.Description &&
-                                             n.Done == updateNoteRequest.Done);
+        var note = await _service.GetNote(updateNoteRequest.UserId, updateNoteRequest.Id);
 
         Assert.IsNotNull(note);
+        Assert.AreEqual(note.Name, "TestName");
+        Assert.AreEqual(note.Description, "testText");
+        Assert.AreEqual(note.Done, true);
     }
     
     [Test]
@@ -89,7 +98,7 @@ public class NotesTests
         
         await _service.TryDeleteNote(deleteNoteRequest);
         
-        var notes = await _service.TryGetNotes(deleteNoteRequest.UserId);
+        var notes = await _service.GetNotes(deleteNoteRequest.UserId);
         var note = notes.FirstOrDefault(n => n.Id == 2);
 
         Assert.IsNull(note);

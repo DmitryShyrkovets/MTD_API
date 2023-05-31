@@ -25,7 +25,14 @@ public class NotesController: ControllerBase
     public async Task<List<NoteModel>> GetNotes()
     {
         UserModel user = await _userService.GetUserByEmail(User.Identity.Name);
-        return await _noteService.TryGetNotes(user.Id);
+        return await _noteService.GetNotes(user.Id);
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<NoteModel> GetNote(int id)
+    {
+        UserModel user = await _userService.GetUserByEmail(User.Identity.Name);
+        return await _noteService.GetNote(user.Id, id);
     }
     
     [HttpPost]
