@@ -13,6 +13,8 @@ D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\LocalTesting.dll
 D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\LocalTesting.pdb
 D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\AutoMapper.dll
 D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
+D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll
 D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\Microsoft.TestPlatform.CoreUtilities.dll
 D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
@@ -107,5 +109,3 @@ D:\projects\learn\MTD\API\MTD\LocalTesting\obj\Debug\net7.0\refint\LocalTesting.
 D:\projects\learn\MTD\API\MTD\LocalTesting\obj\Debug\net7.0\LocalTesting.pdb
 D:\projects\learn\MTD\API\MTD\LocalTesting\obj\Debug\net7.0\LocalTesting.genruntimeconfig.cache
 D:\projects\learn\MTD\API\MTD\LocalTesting\obj\Debug\net7.0\ref\LocalTesting.dll
-D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\Microsoft.Extensions.Caching.Abstractions.dll
-D:\projects\learn\MTD\API\MTD\LocalTesting\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll
