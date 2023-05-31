@@ -6,6 +6,7 @@ namespace Services.ServiceInterfaces;
 public interface IUserService
 {
     public Task<UserModel> GetUserByEmail(string email);
+    public Task<RecoveryModel> GetUserForRecovery(string email);
     public Task<bool> UserVerification(AuthUserRequest authUserRequest);
     public Task TryAddUser(AuthUserRequest authUserRequest);
     public Task TryUpdateEmail(UpdateEmailRequest updateEmailRequest, string oldEmail);
