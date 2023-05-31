@@ -1,37 +1,37 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.ServiceInterfaces;
-using Services.ViewModels;
+using Services.DtoModels;
 
 namespace MTD.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
-public class NoteController: ControllerBase
+[Route("api/[controller]")]
+public class NotesController: ControllerBase
 {
     private readonly INoteService _noteService;
     private readonly IUserService _userService;
     
-    public NoteController(INoteService noteService,IUserService userService)
+    public NotesController(INoteService noteService,IUserService userService)
     {
         _noteService = noteService;
         _userService = userService;
     }
     
-    [HttpGet("GetNotes")]
-    public async Task<List<NoteModel>> GetNotes()
+    [HttpGet]
+    public async Task<List<NoteDto>> GetNotes()
     {
-        UserModel user = await _userService.GetUserByEmail(User.Identity.Name);
+        UserDto user = await _userService.GetUserByEmail(User.Identity.Name);
         return await _noteService.TryGetNotes(user.Id ?? 0);
     }
     
-    [HttpPost("AddNote")]
-    public async Task<IActionResult> AddNote([FromBody] NoteModel model)
+    [HttpPost]
+    public async Task<IActionResult> AddNote([FromBody] NoteDto dto)
     {
         try
         {
-            await _noteService.TryAddNote(model);
+            await _noteService.TryAddNote(dto);
             
             return Ok("Note added successfully!");
         }
@@ -41,12 +41,12 @@ public class NoteController: ControllerBase
         }
     }
     
-    [HttpPut("ModifyNote")]
-    public async Task<IActionResult> ModifyNote([FromBody] NoteModel model)
+    [HttpPut]
+    public async Task<IActionResult> UpdateNote([FromBody] NoteDto dto)
     {
         try
         {
-            await _noteService.TryModifyNote(model);
+            await _noteService.TryUpdateNote(dto);
             return Ok("Note modified successfully!");
         }
         catch (Exception e)
@@ -55,12 +55,12 @@ public class NoteController: ControllerBase
         }
     }
     
-    [HttpDelete("DeleteNote")]
-    public async Task<IActionResult> DeleteNote([FromBody] NoteModel model)
+    [HttpDelete]
+    public async Task<IActionResult> DeleteNote([FromBody] NoteDto dto)
     {
         try
         {
-            await _noteService.TryDeleteNote(model);
+            await _noteService.TryDeleteNote(dto);
             return Ok("Note deleted successfully!");
         }
         catch (Exception e)

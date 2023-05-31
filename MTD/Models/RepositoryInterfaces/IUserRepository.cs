@@ -5,8 +5,9 @@ namespace Models.RepositoryInterfaces;
 public interface IUserRepository
 {
     public Task<User> GetUserByEmail(string email);
-    public Task<bool> UserVerification(User obj);
+    public Task<bool> UserVerification(string email, string password);
+    public Task<bool> IsEmailUnique(string email);
     public Task AddUser(User model);
-    public Task ModifyUser(User model, string? oldPassword, string? oldEmail);
+    public Task UpdateUser(User model);
     public Task DeleteUser(int? id);
 }

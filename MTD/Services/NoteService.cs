@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Models.DbModels;
 using Models.RepositoryInterfaces;
 using Services.ServiceInterfaces;
-using Services.ViewModels;
+using Services.DtoModels;
 
 namespace Services;
 
@@ -15,7 +15,7 @@ public class NoteService : INoteService
     
     private readonly MemoryCacheEntryOptions options;
     
-    public NoteService(INoteRepository repository, IMapper mapper, IMemoryCache cache = null)
+    public NoteService(INoteRepository repository, IMapper mapper, IMemoryCache? cache)
     {
         _repository = repository;
         _mapper = mapper;
@@ -25,17 +25,17 @@ public class NoteService : INoteService
     }
 
 
-    public async Task<List<NoteModel>> TryGetNotes(int userId)
+    public async Task<List<NoteDto>> TryGetNotes(int userId)
     {
         if (userId == 0)
             throw new Exception("User id is null");
 
-        var notesCache = _cache?.Get<List<NoteModel>>("notes" + userId);
+        var notesCache = _cache?.Get<List<NoteDto>>("notes" + userId);
 
-        if (notesCache == null)
+        if (notesCache is null)
         {
             var notes = await _repository.GetNotes(userId);
-            var noteModels = _mapper.Map<List<NoteModel>>(notes);
+            var noteModels = _mapper.Map<List<NoteDto>>(notes);
             
             _cache?.Set("notes" + userId, noteModels, options);
 
@@ -46,41 +46,50 @@ public class NoteService : INoteService
         return notesCache;
     }
 
-    public async Task TryAddNote(NoteModel noteModel)
+    public async Task TryAddNote(NoteDto noteDto)
     {
-        if (noteModel.Category == null ||noteModel.Name == null || noteModel.Text == null)
+        if (string.IsNullOrEmpty(noteDto.Name) || string.IsNullOrEmpty(noteDto.Description))
             throw new Exception("We must enter data!");
 
-        if (noteModel.UserId == null || noteModel.UserId == 0)
+        if (noteDto.UserId is null || noteDto.UserId == 0)
             throw new Exception("User id is null!");
         
-        var note = _mapper.Map<Note>(noteModel);
+        var note = _mapper.Map<Note>(noteDto);
+        
+        note.CreateAt = DateTime.Now;
+        note.Done = false;
+        note.DoneAt = null;
 
         await _repository.AddNote(note);
 
-        await RewriteCache(noteModel.UserId ?? 0);
+        await RewriteCache(noteDto.UserId ?? 0);
     }
 
-    public async Task TryModifyNote(NoteModel model)
+    public async Task TryUpdateNote(NoteDto dto)
     {
-        if (model.Id == null || model.Category == null ||model.Name == null || model.Text == null)
+        if (dto.Id is null || string.IsNullOrEmpty(dto.Name) || string.IsNullOrEmpty(dto.Description))
             throw new Exception("We must enter data! ");
         
-        if (model.UserId == null || model.UserId == 0)
+        if (dto.UserId is null || dto.UserId == 0)
             throw new Exception("User id is null!");
 
-        var note = _mapper.Map<Note>(model);
+        var note = _mapper.Map<Note>(dto);
+
+        if (note.Done)
+            note.DoneAt = DateTime.Now;
+        else
+            note.DoneAt = null;
+
+        await _repository.UpdateNote(note);
         
-        await _repository.ModifyNote(note);
-        
-        await RewriteCache(model.UserId ?? 0);
+        await RewriteCache(dto.UserId ?? 0);
     }
 
-    public async Task TryDeleteNote(NoteModel model)
+    public async Task TryDeleteNote(NoteDto dto)
     {
-        await _repository.DeleteNote(model.Id ?? throw new Exception("Note id is null! "));
+        await _repository.DeleteNote(dto.Id ?? throw new Exception("Note id is null! "));
         
-        await RewriteCache(model.UserId ?? throw new Exception("User id is null! "));
+        await RewriteCache(dto.UserId ?? throw new Exception("User id is null! "));
     }
 
     private async Task RewriteCache(int userId)

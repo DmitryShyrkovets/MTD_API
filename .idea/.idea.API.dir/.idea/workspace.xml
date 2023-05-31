@@ -4,7 +4,80 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0577928e-476f-4320-81d9-cfcf46a423ef" name="Changes" comment="" />
+    <list default="true" id="0577928e-476f-4320-81d9-cfcf46a423ef" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/LocalTesting.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/LocalTesting.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/LocalTesting.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/LocalTesting.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Mapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Mapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Mapper.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Mapper.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/RepositoryForTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/RepositoryForTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/RepositoryForTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/RepositoryForTest.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Services.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Services.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Services.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/bin/Debug/net7.0/Services.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/obj/Debug/net7.0/LocalTesting.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/obj/Debug/net7.0/LocalTesting.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/obj/Debug/net7.0/LocalTesting.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/obj/Debug/net7.0/LocalTesting.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/LocalTesting/obj/Debug/net7.0/LocalTesting.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/LocalTesting/obj/Debug/net7.0/LocalTesting.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/MTD.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/MTD.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/MTD.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/MTD.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Mapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Mapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Mapper.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Mapper.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Repository.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Repository.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Repository.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Repository.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Services.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Services.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Services.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/bin/Debug/net7.0/Services.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/MTD.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/MTD.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/MTD.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/MTD.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/MTD.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/MTD.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/ref/MTD.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/ref/MTD.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/refint/MTD.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/MTD/obj/Debug/net7.0/refint/MTD.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Mapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Mapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Mapper.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Mapper.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Services.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Services.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Services.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/bin/Debug/net7.0/Services.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/obj/Debug/net7.0/Mapper.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/obj/Debug/net7.0/Mapper.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/obj/Debug/net7.0/Mapper.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/obj/Debug/net7.0/Mapper.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Mapper/obj/Debug/net7.0/Mapper.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Mapper/obj/Debug/net7.0/Mapper.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Models/bin/Debug/net7.0/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Models/bin/Debug/net7.0/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Models/bin/Debug/net7.0/Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Models/bin/Debug/net7.0/Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Models/obj/Debug/net7.0/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Models/obj/Debug/net7.0/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Models/obj/Debug/net7.0/Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Models/obj/Debug/net7.0/Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Models/obj/Debug/net7.0/ref/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Models/obj/Debug/net7.0/ref/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Models/obj/Debug/net7.0/refint/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Models/obj/Debug/net7.0/refint/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Repository.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Repository.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Repository.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Repository.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Services.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Services.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Services.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/bin/Debug/net7.0/Services.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/Repository.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/Repository.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/Repository.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/Repository.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/Repository.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/Repository.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/ref/Repository.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/ref/Repository.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/refint/Repository.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Repository/obj/Debug/net7.0/refint/Repository.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/bin/Debug/net7.0/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/bin/Debug/net7.0/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/bin/Debug/net7.0/Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/bin/Debug/net7.0/Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/bin/Debug/net7.0/RepositoryForTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/bin/Debug/net7.0/RepositoryForTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/bin/Debug/net7.0/RepositoryForTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/bin/Debug/net7.0/RepositoryForTest.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/RepositoryForTest.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/RepositoryForTest.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/RepositoryForTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/RepositoryForTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/RepositoryForTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/RepositoryForTest.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/ref/RepositoryForTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/ref/RepositoryForTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/refint/RepositoryForTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/RepositoryForTest/obj/Debug/net7.0/refint/RepositoryForTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/bin/Debug/net7.0/Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/bin/Debug/net7.0/Models.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/bin/Debug/net7.0/Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/bin/Debug/net7.0/Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/bin/Debug/net7.0/Services.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/bin/Debug/net7.0/Services.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/bin/Debug/net7.0/Services.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/bin/Debug/net7.0/Services.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/Services.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/Services.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/Services.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/Services.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/Services.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/Services.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/ref/Services.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/ref/Services.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/refint/Services.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MTD/Services/obj/Debug/net7.0/refint/Services.dll" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,6 +99,13 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\zoldi\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\zoldi\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\zoldi\\AppData\\Local\\Symbols\\src"
+    ]
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -37,6 +117,7 @@
       <option name="presentableId" value="Default" />
       <updated>1684762349149</updated>
       <workItem from="1684762350402" duration="286000" />
+      <workItem from="1685288962283" duration="204000" />
     </task>
     <servers />
   </component>

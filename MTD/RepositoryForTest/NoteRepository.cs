@@ -3,11 +3,11 @@ using Models.RepositoryInterfaces;
 
 namespace RepositoryForTest;
 
-public class WorkingWithNotes : INoteRepository
+public class NoteRepository : INoteRepository
 {
     private readonly AppContextLocal _context;
 
-    public WorkingWithNotes()
+    public NoteRepository()
     {
         _context = new AppContextLocal();
     }
@@ -21,28 +21,26 @@ public class WorkingWithNotes : INoteRepository
         _context.Notes.Add(model);
     }
 
-    public async Task ModifyNote(Note model)
+    public async Task UpdateNote(Note model)
     {
         var note = _context.Notes.FirstOrDefault(n => n.Id == model.Id);
         
-        if (note == null)
-        {
+        if (note is null)
             throw new Exception("Note is not found!");
-        }
 
         note.Name = model.Name;
-        note.Text = model.Text;
-        note.Category = model.Category;
+        note.Description = model.Description;
+        note.Done = model.Done;
+        note.DoneAt = model.DoneAt;
+
     }
 
     public async Task DeleteNote(int id)
     {
         var note = _context.Notes.FirstOrDefault(n => n.Id == id);
         
-        if (note == null)
-        {
+        if (note is null)
             throw new Exception("Note is not found!");
-        }
 
         _context.Notes.Remove(note);
     }

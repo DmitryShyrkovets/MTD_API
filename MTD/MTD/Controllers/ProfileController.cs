@@ -4,38 +4,38 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.ServiceInterfaces;
-using Services.ViewModels;
+using Services.DtoModels;
 
 namespace MTD.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
-public class UserController : ControllerBase
+[Route("api/[controller]")]
+public class ProfileController : ControllerBase
 {
     private readonly IUserService _service;
-    public UserController(IUserService service)
+    public ProfileController(IUserService service)
     {
         _service = service;
     }
     
     
-    [HttpGet("GetUser")]
-    public async Task<UserModel> GetUser()
+    [HttpGet]
+    public async Task<UserDto> GetUser()
     {
         return await _service.GetUserByEmail(User.Identity.Name);
     }
     
     [HttpPut("ChangeEmail")]
-    public async Task<IActionResult> ChangeEmail([FromBody]UserModel model)
+    public async Task<IActionResult> ChangeEmail([FromBody]UserDto dto)
     {
         try
         {
-            await _service.TryModifyUser(model, null, User.Identity.Name);
+            await _service.TryUpdateUser(dto, User.Identity.Name, null);
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             
-            await Authenticate(model.Email);
+            await Authenticate(dto.Email);
             
             return Ok("Email changed successfully!");
         }
@@ -58,13 +58,13 @@ public class UserController : ControllerBase
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
     }
 
-    [HttpPut("ModifyUser")]
-    public async Task<IActionResult> ModifyUser([FromBody] UserModel model, string? oldPassword)
+    [HttpPut("ChangePassword")]
+    public async Task<IActionResult> ChangePassword([FromBody] UserDto dto, string oldPassword)
     {
         try
         {
-            model.Email = User.Identity.Name;
-            await _service.TryModifyUser(model, oldPassword, null);
+            dto.Email = User.Identity.Name;
+            await _service.TryUpdateUser(dto, null, oldPassword);
             return Ok("User changed successfully!");
         }
         catch (Exception e)
@@ -73,7 +73,7 @@ public class UserController : ControllerBase
         }
     }
     
-    [HttpDelete("DeleteUser")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteUser()
     {
         try
