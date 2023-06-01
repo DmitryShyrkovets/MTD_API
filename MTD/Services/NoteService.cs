@@ -97,7 +97,7 @@ public class NoteService : INoteService
 
         var noteDb = _mapper.Map<Note>(updateNoteRequest);
 
-        if (noteDb.Done)
+        if (noteDb.IsDone)
             noteDb.DoneAt = DateTime.Now;
         else
             noteDb.DoneAt = null;

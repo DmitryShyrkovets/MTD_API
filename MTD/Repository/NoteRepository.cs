@@ -43,7 +43,7 @@ public class NoteRepository: INoteRepository
 
         noteDb.Name = note.Name;
         noteDb.Description = note.Description;
-        noteDb.Done = note.Done;
+        noteDb.IsDone = note.IsDone;
         noteDb.DoneAt = note.DoneAt;
         
         await _context.SaveChangesAsync();

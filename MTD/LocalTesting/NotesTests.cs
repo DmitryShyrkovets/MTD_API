@@ -74,7 +74,7 @@ public class NotesTests
             UserId = 1,
             Name = "TestName",
             Description = "testText",
-            Done = true
+            IsDone = true
         };
 
         await _service.TryUpdateNote(updateNoteRequest);
@@ -84,7 +84,7 @@ public class NotesTests
         Assert.IsNotNull(note);
         Assert.AreEqual(note.Name, "TestName");
         Assert.AreEqual(note.Description, "testText");
-        Assert.AreEqual(note.Done, true);
+        Assert.AreEqual(note.IsDone, true);
     }
     
     [Test]
