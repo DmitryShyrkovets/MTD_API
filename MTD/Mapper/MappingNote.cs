@@ -13,7 +13,7 @@ public class MappingNote : Profile
         CreateMap<NoteModel, Note>();
 
         CreateMap<CreateNoteRequest, Note>()
-            .ForMember(dest => dest.Done, opt => opt.MapFrom(src => false))
+            .ForMember(dest => dest.IsDone, opt => opt.MapFrom(src => false))
             .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => DateTime.Now));
 
         CreateMap<UpdateNoteRequest, Note>();

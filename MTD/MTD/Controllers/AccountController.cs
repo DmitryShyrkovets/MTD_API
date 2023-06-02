@@ -123,7 +123,7 @@ public class AccountController : ControllerBase
 
     }
     
-    [HttpGet("Logout")]
+    [HttpPost("Logout")]
     public async Task<IActionResult> Logout()
     {
         _cache.Remove(User.Identity.Name);
