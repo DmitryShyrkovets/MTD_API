@@ -60,7 +60,7 @@ public class ProfileController : ControllerBase
     }
 
     [HttpPut("UpdatePassword")]
-    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequest updatePasswordRequest, string oldPassword)
+    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequest updatePasswordRequest)
     {
         try
         {
